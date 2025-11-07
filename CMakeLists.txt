@@ -3,19 +3,39 @@ cmake_minimum_required(VERSION 3.10)
 project(pyRTSS)
 
 # python
-add_library(python INTERFACE)
 set(PYTHON_VERSION 3.14)
+message(STATUS "PYTHON ${PYTHON_VERSION}")
+add_library(python INTERFACE)
 if(WIN32)
 	set(PYTHON_INCLUDE "C:/Users/$ENV{USERNAME}/AppData/Local/Python/pythoncore-${PYTHON_VERSION}-64/include")
 	set(PYTHON_LIB "C:/Users/$ENV{USERNAME}/AppData/Local/Python/pythoncore-${PYTHON_VERSION}-64/libs")
-	message("PYTHON ${PYTHON_INCLUDE}")
+	message(STATUS "	INCLUDE ${PYTHON_INCLUDE}")
+	message(STATUS "	LIB ${PYTHON_LIB}")
 	target_include_directories(python INTERFACE ${PYTHON_INCLUDE})
 	target_link_directories(python INTERFACE ${PYTHON_LIB})
 else()
 	
 endif()
 
+# rtss
+message(STATUS "RTSS")
+add_library(rtss INTERFACE)
+#target_include_directories(rtss INTERFACE "C:/Program Files (x86)/RivaTuner Statistics Server/SDK/Include")
+find_path(RTSS_INCLUDE
+	NAMES
+		RTSSSharedMemory.h
+	PATHS
+		"C:/Program Files (x86)/RivaTuner Statistics Server/SDK/Include"
+		"C:/Program Files/RivaTuner Statistics Server/SDK/Include"
+)
+target_include_directories(rtss INTERFACE ${RTSS_INCLUDE})
+message(STATUS "	INCLUDE ${RTSS_INCLUDE}")
 
 add_subdirectory(pybind11)
 
-pybind11_add_module(pyRTSS src/pyRTSS.cpp)
+pybind11_add_module(pyRTSS 
+	src/pyRTSS.cpp
+	src/RTSS.hpp
+	src/RTSS.cpp
+)
+target_link_libraries(pyRTSS PUBLIC rtss)
