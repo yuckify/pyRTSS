@@ -15,9 +15,9 @@ def main():
     while (True):
         s = r.snapshot()
         
-        if s.foreground_app:
-            if s.foreground_app.pid:
-                print(s.foreground_app.name, s.foreground_app.frame_rate())
+        print(s.dwDesktopVideoCaptureStat)
+        print(s.arrOSD)
+        
         sleep(1)
 
 
