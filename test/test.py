@@ -16,7 +16,14 @@ def main():
         s = r.snapshot()
         
         print(s.dwDesktopVideoCaptureStat)
-        print(s.arrOSD)
+        print("dwLastForegroundAppProcessID", s.dwLastForegroundAppProcessID)
+        
+        for i in range(256):
+            app = s.arrApp[i]
+            if len(app.szName) == 0:
+                break
+            
+            print(app.szName)
         
         sleep(1)
 
