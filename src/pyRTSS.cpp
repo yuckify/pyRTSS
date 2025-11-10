@@ -4,6 +4,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <stdint.h>
 
 namespace py = pybind11;
 
@@ -64,6 +65,11 @@ public:
 	}
 };
 
+std::ostream &operator<<(std::ostream &out, LARGE_INTEGER &item) {
+	out<<item.QuadPart;
+	return out;
+}
+
 std::ostream &operator<<(std::ostream &out, 
 		RTSS_SHARED_MEMORY::RTSS_SHARED_MEMORY_PROCESS_PERF_COUNTER_ENTRY &item) {
 	
@@ -86,6 +92,7 @@ std::ostream &operator<<(std::ostream &out,
 	out<<"{"
 	
 #define PRINT(x) <<#x ": " <<item.x <<", "
+#define PRINT_ARR(x)
 	PRINT(dwProcessID)
 	PRINT(szName)
 	PRINT(dwFlags)
@@ -93,7 +100,79 @@ std::ostream &operator<<(std::ostream &out,
 	PRINT(dwTime1)
 	PRINT(dwFrames)
 	PRINT(dwFrameTime)
+	PRINT(dwStatFlags)
+	PRINT(dwStatTime0)
+	PRINT(dwStatTime1)
+	PRINT(dwStatFrames)
+	PRINT(dwStatCount)
+	PRINT(dwStatFramerateMin)
+	PRINT(dwStatFramerateAvg)
+	PRINT(dwStatFramerateMax)
+	PRINT(dwOSDX)
+	PRINT(dwOSDY)
+	PRINT(dwOSDPixel)
+	PRINT(dwOSDColor)
+	PRINT(dwOSDFrame)
+	PRINT(dwScreenCaptureFlags)
+	PRINT(szScreenCapturePath)
+	PRINT(dwOSDBgndColor)
+	PRINT(dwVideoCaptureFlags)
+	PRINT(szVideoCapturePath)
+	PRINT(dwVideoFramerate)
+	PRINT(dwVideoFramesize)
+	PRINT(dwVideoFormat)
+	PRINT(dwVideoQuality)
+	PRINT(dwVideoCaptureThreads)
+	PRINT(dwScreenCaptureQuality)
+	PRINT(dwScreenCaptureThreads)
+	PRINT(dwAudioCaptureFlags)
+	PRINT(dwVideoCaptureFlagsEx)
+	PRINT(dwAudioCaptureFlags2)
+	PRINT(dwStatFrameTimeMin)
+	PRINT(dwStatFrameTimeAvg)
+	PRINT(dwStatFrameTimeMax)
+	PRINT(dwStatFrameTimeCount)
+	<<"dwStatFrameTimeBuf: [...], "
+	PRINT(dwStatFrameTimeBufPos)
+	PRINT(dwStatFrameTimeBufFramerate)
+	PRINT(qwAudioCapturePTTEventPush)
+	PRINT(qwAudioCapturePTTEventRelease)
+	PRINT(qwAudioCapturePTTEventPush2)
+	PRINT(qwAudioCapturePTTEventRelease2)
+	PRINT(dwPrerecordSizeLimit)
+	PRINT(dwPrerecordTimeLimit)
+	PRINT(qwStatTotalTime)
+	<<"dwStatFrameTimeLowBuf: [...], "
+	PRINT(dwStatFramerate1Dot0PercentLow)
+	PRINT(dwStatFramerate0Dot1PercentLow)
+	PRINT(dw1Dot0PercentLowBufPos)
+	PRINT(dw0Dot1PercentLowBufPos)
+	PRINT(dwProcessPerfCountersFlags)
+	PRINT(dwProcessPerfCountersCount)
+	PRINT(dwProcessPerfCountersSamplingPeriod)
+	PRINT(dwProcessPerfCountersSamplingTime)
+	PRINT(dwProcessPerfCountersTimestamp)
+	PRINT(qwLatencyMarkerPresentTimestamp)
+	PRINT(dwResolutionX)
+	PRINT(dwResolutionY)
+	PRINT(qwInputSampleTime)
+	PRINT(qwSimStartTime)
+	PRINT(qwSimEndTime)
+	PRINT(qwRenderSubmitStartTime)
+	PRINT(qwRenderSubmitEndTime)
+	PRINT(qwPresentStartTime)
+	PRINT(qwPresentEndTime)
+	PRINT(qwDriverStartTime)
+	PRINT(qwDriverEndTime)
+	PRINT(qwOsRenderQueueStartTime)
+	PRINT(qwOsRenderQueueEndTime)
+	PRINT(qwGpuRenderStartTime)
+	PRINT(qwGpuRenderEndTime)
+	PRINT(dwGpuActiveRenderTime)
+	PRINT(dwGpuFrameTime)
+	<<"arrPerfCounters: [...]"
 #undef PRINT
+#undef PRINT_ARR
 	
 	<<"}";
 	
@@ -108,6 +187,9 @@ std::ostream &operator<<(std::ostream &out,
 #define PRINT(x) <<#x ": \"" <<item.x <<"\", "
 	PRINT(szOSD)
 	PRINT(szOSDOwner)
+	PRINT(szOSDEx)
+	<<"buffer: [...], "
+	<<"szOSDEx2: " <<item.szOSDEx2 <<", "
 #undef PRINT
 	
 	<<"}";
@@ -139,7 +221,6 @@ struct impl {
 				return str.str();
 			})
 		;
-		
 	}
 };
 
