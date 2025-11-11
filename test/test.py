@@ -15,15 +15,15 @@ def main():
     while (True):
         s = r.snapshot()
         
-        print(s.dwDesktopVideoCaptureStat)
-        print("dwLastForegroundAppProcessID", s.dwLastForegroundAppProcessID)
+        if s.dwLastForegroundAppProcessID == 0:
+            continue
         
-        for i in range(256):
-            app = s.arrApp[i]
-            if len(app.szName) == 0:
-                break
-            
-            print(app.szName)
+        app = s.arrApp[s.dwLastForegroundApp]
+        tm = app.dwTime1 - app.dwTime0
+        if not tm:
+            continue
+        fps = 1000.0 * app.dwFrames / tm
+        print(app.szName, fps, end="\r")
         
         sleep(1)
 
