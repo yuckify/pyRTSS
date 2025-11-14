@@ -15,15 +15,11 @@ function(pybind11_stubgen target)
         find_package(Python3 REQUIRED COMPONENTS Interpreter)
     endif()
 
-    set(STUBGEN_MODULE ${STUBGEN_PACKAGE}.$<TARGET_FILE_BASE_NAME:${target}>)
-    set(STUBGEN_CMD "\"${Python3_EXECUTABLE}\" -m pybind11_stubgen -o . --exit-code \"${STUBGEN_MODULE}\"")
-    install(CODE "
-        execute_process(COMMAND ${STUBGEN_CMD}
-                        WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/${STUBGEN_DESTINATION}\"
-                        RESULT_VARIABLE STUBGEN_RET)
-        if(NOT STUBGEN_RET EQUAL 0)
-            message(SEND_ERROR \"pybind11-stubgen ${STUBGEN_MODULE} failed.\")
-        endif()
-        " EXCLUDE_FROM_ALL COMPONENT ${STUBGEN_COMPONENT})
-
+    # Create the stubgen command with generator expression inside the install block
+    set(STUBGEN_MODULE "${STUBGEN_PACKAGE}.$<TARGET_FILE_BASE_NAME:${target}>")
+    set(STUBGEN_CMD "${Python3_EXECUTABLE} -m pybind11_stubgen -o . --exit-code ${STUBGEN_MODULE}")
+    set(custom_script ${PROJECT_BINARY_DIR}/custom_install_scripts/install.cmake)
+    configure_file(cmake/install.cmake.in ${custom_script} @ONLY)
+    install(SCRIPT ${custom_script})
+    
 endfunction()

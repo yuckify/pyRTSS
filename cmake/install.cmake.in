@@ -1,0 +1,10 @@
+set(STUBGEN_CMD @STUBGEN_CMD@)
+set(STUBGEN_MODULE @STUBGEN_MODULE@)
+
+message(\"GEN COMMAND \\\"\${STUBGEN_CMD}\\\"\")
+execute_process(COMMAND \${STUBGEN_CMD}
+                WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/${STUBGEN_DESTINATION}\"
+                RESULT_VARIABLE STUBGEN_RET)
+if(NOT STUBGEN_RET EQUAL 0)
+    message(SEND_ERROR \"pybind11-stubgen \${STUBGEN_MODULE} failed. ${STUBGEN_CMD}\")
+endif()

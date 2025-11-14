@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(pyRTSS VERSION 0.5.0)
-set(PY_VERSION_SUFFIX "")
+#set(PY_VERSION_SUFFIX "")
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
 
 # rtss
@@ -26,11 +26,7 @@ if (DEFINED PY_BUILD_CMAKE_PROJECT_VERSION)
 endif()
 
 # Find the Python interpreter and the development files
-if (CMAKE_CROSSCOMPILING AND NOT (APPLE AND "$ENV{CIBUILDWHEEL}" STREQUAL "1"))
-    find_package(Python3 REQUIRED COMPONENTS Development.Module)
-else()
-    find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
-endif()
+find_package(Python3 REQUIRED COMPONENTS Development.Module)
 
 # Find the pybind11 package
 include(cmake/QueryPythonForPybind11.cmake)
@@ -49,12 +45,14 @@ target_compile_definitions(pyRTSS PRIVATE
     MODULE_NAME=$<TARGET_FILE_BASE_NAME:pyRTSS>
     VERSION_INFO="${PY_FULL_VERSION}"
 )
+#message("***** $<TARGET_FILE_BASE_NAME:pyRTSS>")
+#file(GENERATE OUTPUT STDOUT CONTENT "***** $<TARGET_FILE_BASE_NAME:pyRTSS>")
 # Hide all symbols by default
 set_target_properties(pyRTSS PROPERTIES
     CXX_VISIBILITY_PRESET "hidden"
     VISIBILITY_INLINES_HIDDEN true)
 
-set(PY_BUILD_CMAKE_IMPORT_NAME "pyRTSS")
+#set(PY_BUILD_CMAKE_IMPORT_NAME "pyRTSS")
 
 # Install the Python module
 install(TARGETS pyRTSS
