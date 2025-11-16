@@ -1,5 +1,4 @@
 function(pybind11_stubgen target)
-
     cmake_parse_arguments(STUBGEN "" "PACKAGE;DESTINATION;COMPONENT" "" ${ARGN})
     if (NOT DEFINED STUBGEN_PACKAGE)
         set(STUBGEN_PACKAGE ${PY_BUILD_CMAKE_IMPORT_NAME})
@@ -21,5 +20,4 @@ function(pybind11_stubgen target)
     set(custom_script ${PROJECT_BINARY_DIR}/custom_install_scripts/install.cmake)
     configure_file(cmake/install.cmake.in ${custom_script} @ONLY)
     install(SCRIPT ${custom_script})
-    
 endfunction()

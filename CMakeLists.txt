@@ -33,29 +33,29 @@ include(cmake/QueryPythonForPybind11.cmake)
 find_pybind11_python_first()
 
 # Compile the example Python module
-pybind11_add_module(pyRTSS MODULE 
+pybind11_add_module(_pyRTSS MODULE 
 	src/ext/pyRTSS.cpp 
 	src/ext/RTSS.hpp 
 	src/ext/RTSS.cpp
 )
-target_link_libraries(pyRTSS PRIVATE rtss)
-set_target_properties(pyRTSS PROPERTIES
+target_link_libraries(_pyRTSS PRIVATE rtss)
+set_target_properties(_pyRTSS PROPERTIES
     DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}${PYTHON_MODULE_DEBUG_POSTFIX}")
-target_compile_definitions(pyRTSS PRIVATE
-    MODULE_NAME=$<TARGET_FILE_BASE_NAME:pyRTSS>
+target_compile_definitions(_pyRTSS PRIVATE
+    MODULE_NAME=$<TARGET_FILE_BASE_NAME:_pyRTSS>
     VERSION_INFO="${PY_FULL_VERSION}"
 )
-#message("***** $<TARGET_FILE_BASE_NAME:pyRTSS>")
-#file(GENERATE OUTPUT STDOUT CONTENT "***** $<TARGET_FILE_BASE_NAME:pyRTSS>")
+#message("***** $<TARGET_FILE_BASE_NAME:_pyRTSS>")
+#file(GENERATE OUTPUT STDOUT CONTENT "***** $<TARGET_FILE_BASE_NAME:_pyRTSS>")
 # Hide all symbols by default
-set_target_properties(pyRTSS PROPERTIES
-    CXX_VISIBILITY_PRESET "hidden"
-    VISIBILITY_INLINES_HIDDEN true)
+#set_target_properties(_pyRTSS PROPERTIES
+#    CXX_VISIBILITY_PRESET "hidden"
+#    VISIBILITY_INLINES_HIDDEN true)
 
-#set(PY_BUILD_CMAKE_IMPORT_NAME "pyRTSS")
+#set(PY_BUILD_CMAKE_IMPORT_NAME "_pyRTSS")
 
 # Install the Python module
-install(TARGETS pyRTSS
+install(TARGETS _pyRTSS
         EXCLUDE_FROM_ALL
         COMPONENT python_modules
         DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME})
@@ -70,7 +70,7 @@ option(WITH_PY_STUBS
     ${WITH_PY_STUBS_DEFAULT})
 if (WITH_PY_STUBS)
     include(cmake/Pybind11Stubgen.cmake)
-    pybind11_stubgen(pyRTSS
+    pybind11_stubgen(_pyRTSS
         PACKAGE ${PY_BUILD_CMAKE_IMPORT_NAME}
         COMPONENT python_stubs)
 endif()

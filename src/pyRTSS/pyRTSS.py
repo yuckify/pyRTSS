@@ -1,3 +1,3 @@
-from .pyRTSS import *
+from .pyRTSS_module import *
 
 

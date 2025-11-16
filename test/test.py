@@ -4,7 +4,7 @@ from time import sleep
 import psutil
 
 
-#sys.path.append(os.getcwd() + "\\build\\Release")
+sys.path.append(os.getcwd() + "\\build\\Release")
 import pyRTSS
 
 

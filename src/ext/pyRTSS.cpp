@@ -226,7 +226,10 @@ struct impl {
 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
-PYBIND11_MODULE(pyRTSS, m, py::mod_gil_not_used()) {
+PYBIND11_MODULE(_pyRTSS, m, py::mod_gil_not_used()) {
+	m.doc()               = "python bindings for Rivatuner Statistics Server";
+    m.attr("__version__") = VERSION_INFO;
+
 	impl::python_decl_fixed_array<DWORD>(m);
 	impl::python_decl_fixed_array<RTSS_SHARED_MEMORY::RTSS_SHARED_MEMORY_OSD_ENTRY>(m);
 	impl::python_decl_fixed_array<RTSS_SHARED_MEMORY::RTSS_SHARED_MEMORY_APP_ENTRY>(m);
