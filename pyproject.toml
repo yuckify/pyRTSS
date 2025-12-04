@@ -38,7 +38,9 @@ name = "pyRTSS" # Import name
 directory = "src"
 
 [tool.py-build-cmake.sdist]
-include = ["CMakeLists.txt", "cmake/*.cmake", "src"]
+include = ["CMakeLists.txt", "cmake/Pybind11Stubgen.cmake", 
+	"cmake/QueryPythonForPybind11.cmake", "cmake/install.cmake.in", 
+	"src"]
 exclude = []
 
 [tool.py-build-cmake.cmake]

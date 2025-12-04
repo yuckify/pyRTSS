@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(pyRTSS VERSION 0.5.0)
+project(pyRTSS VERSION 7.3.7.0)
 #set(PY_VERSION_SUFFIX "")
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
 
